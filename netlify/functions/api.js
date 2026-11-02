@@ -7,17 +7,24 @@ const app = express();
 app.use(express.json({ limit: '12mb' }));
 
 function loadLocalDotEnv() {
-  try {
-    const envPath = path.join(__dirname, '..', '..', '.env');
-    const raw = fs.readFileSync(envPath, 'utf8').replace(/^\uFEFF/, '');
-    raw.split(/\r?\n/).forEach((line) => {
-      const match = /^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$/.exec(line);
-      if (match && !line.trim().startsWith('#')) {
-        process.env[match[1]] = match[2].replace(/^['"]|['"]$/g, '');
-      }
-    });
-  } catch (error) {
-    // No local .env file, which is expected in Netlify deployments.
+  const candidates = [
+    path.join(__dirname, '..', '..', '.env'),
+    path.join(__dirname, '..', '..', '.env.example'),
+  ];
+
+  for (const envPath of candidates) {
+    try {
+      const raw = fs.readFileSync(envPath, 'utf8').replace(/^\uFEFF/, '');
+      raw.split(/\r?\n/).forEach((line) => {
+        const match = /^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$/.exec(line);
+        if (match && !line.trim().startsWith('#')) {
+          process.env[match[1]] = match[2].replace(/^['"]|['"]$/g, '');
+        }
+      });
+      return;
+    } catch (error) {
+      // Keep trying .env, then .env.example when deployed without a real .env.
+    }
   }
 }
 
