@@ -6,8 +6,8 @@ Built for the YouCam API Skin AI & eCommerce VTO Hackathon. Designed for English
 
 > Skincare guidance, not medical advice. A selfie scan shows what the camera sees, not why.
 
-- Demo video: `<ADD YOUTUBE LINK>`
-- Live demo: `<ADD LIVE URL>` (rate-limited per visitor to protect API units; if you hit the limit, watch the video or run it locally below)
+- Demo video: `<https://youtu.be/Cjbn-iYT5iU>`
+- Live demo: `<https://cleosmakeover.netlify.app/>` (rate-limited per visitor to protect API units; if you hit the limit, watch the video or run it locally below)
 - Code: this repository
 
 ---
